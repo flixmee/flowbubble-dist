@@ -52,6 +52,29 @@ npx serve .        # or: python3 -m http.server 8000
 
 `integrity` and `crossorigin` are optional. If you use them, the CDN has to send `Access-Control-Allow-Origin`.
 
+### Load from JavaScript
+
+You can also create the script element yourself, for example from a tag manager or after a consent banner. Each `data-*` option becomes a `dataset` property in camelCase (`data-guest-form` → `dataset.guestForm`). The example pages load the widget this way.
+
+```html
+<script>
+(function () {
+  var s = document.createElement('script');
+  s.src = 'https://your-cdn.com/flowbubble.v0.1.0.js';
+  s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
+  s.dataset.title = 'Support';
+  s.dataset.greeting = 'Hi! How can I help you today?';
+  s.dataset.suggestions = 'Pricing|Contact|Opening hours';
+  s.dataset.accent = '#6C5CE7';
+  s.onload = function () {
+    // window.FlowBubble is ready here
+    FlowBubble.on('reply', function (e) { console.log(e.text); });
+  };
+  document.body.appendChild(s);
+})();
+</script>
+```
+
 ## Options
 
 | Attribute | Default | Notes |

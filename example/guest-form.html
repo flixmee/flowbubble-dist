@@ -10,20 +10,27 @@
   <main>
     <h1>Guest form example</h1>
     <p class="lead">
-      With <code>data-guest-form="required"</code>, visitors fill in their name and phone number before they can chat.
+      With <code>guestForm</code> set to <code>required</code> (<code>data-guest-form="required"</code> on a script tag), visitors fill in their name and phone number before they can chat.
       This page uses the mock backend, so the details stay in your browser.
       Back to the <a href="index.html">basic example</a>.
     </p>
 
     <h2>The embed</h2>
-<pre><code>&lt;script
-  src="flowbubble.min.js"
-  data-webhook="https://your-flowapp-host/api/automation-webhooks/&lt;automation-id&gt;"
-  data-title="Support"
-  data-guest-form="required"
-  data-consent-text="I agree that my details are stored so the team can contact me."
-  data-open="true"
-  defer&gt;&lt;/script&gt;</code></pre>
+<pre><code>&lt;script&gt;
+(function () {
+  var s = document.createElement('script');
+  s.src = 'flowbubble.min.js';
+  s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/&lt;automation-id&gt;';
+  s.dataset.title = 'Support';
+  s.dataset.guestForm = 'required';
+  s.dataset.consentText = 'I agree that my details are stored so the team can contact me.';
+  s.dataset.open = 'true';
+  s.onload = function () {
+    FlowBubble.on('reply', function (e) { console.log(e.text); });
+  };
+  document.body.appendChild(s);
+})();
+&lt;/script&gt;</code></pre>
 
     <h2>How it works</h2>
     <p>
@@ -47,20 +54,25 @@
   <!-- Example only: answers the widget in the browser. Don't copy this to your site. -->
   <script src="mock-backend.js" data-require-guest></script>
 
-  <!-- The widget. -->
-  <script
-    src="../flowbubble.min.js"
-    data-webhook="https://mock.flowbubble.invalid/webhook"
-    data-title="Support"
-    data-greeting="Thanks! How can I help you today?"
-    data-suggestions="Pricing|Contact|Opening hours"
-    data-guest-form="required"
-    data-consent-text="I agree that my details are stored so the team can contact me."
-    data-open="true"
-    data-timeout="6000"
-    data-storage-key="flowbubble-example-guest"
-    defer></script>
+  <script src="event-log.js"></script>
 
-  <script src="event-log.js" defer></script>
+  <!-- The widget, loaded from JavaScript. Each data-* option is a dataset property. -->
+  <script>
+    (function () {
+      var s = document.createElement('script');
+      s.src = '../flowbubble.min.js';
+      s.dataset.webhook = 'https://mock.flowbubble.invalid/webhook';
+      s.dataset.title = 'Support';
+      s.dataset.greeting = 'Thanks! How can I help you today?';
+      s.dataset.suggestions = 'Pricing|Contact|Opening hours';
+      s.dataset.guestForm = 'required';
+      s.dataset.consentText = 'I agree that my details are stored so the team can contact me.';
+      s.dataset.open = 'true';
+      s.dataset.timeout = '6000';
+      s.dataset.storageKey = 'flowbubble-example-guest';
+      s.onload = logFlowBubbleEvents;
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>
