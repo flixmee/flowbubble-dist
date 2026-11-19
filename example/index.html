@@ -8,105 +8,108 @@
 </head>
 <body>
   <main class="wide">
-    <h1>FlowBubble playground</h1>
-    <p class="lead">
-      Change the options and the chat bubble in the corner reloads with them. Copy the embed code when you like the
-      result. A mock backend in your browser answers the chat, so nothing is sent anywhere unless you enter your own
-      webhook. See also the <a href="guest-form.html">guest form example</a>.
-    </p>
+    <h1 data-i18n="heading">FlowBubble playground</h1>
+    <p class="lead" data-i18n-html="lead"></p>
 
     <div class="playground">
       <form class="options card" id="options" autocomplete="off">
         <fieldset>
-          <legend>Text</legend>
-          <label class="field"><span>Title</span><input type="text" name="title" maxlength="60"></label>
-          <label class="field"><span>Subtitle</span><input type="text" name="subtitle" maxlength="80"></label>
-          <label class="field"><span>Greeting</span><textarea name="greeting" rows="2"></textarea>
-            <small>Supports **bold**, *italic*, lists and links.</small></label>
-          <label class="field"><span>Input placeholder</span><input type="text" name="placeholder" maxlength="80"></label>
-          <label class="field"><span>Suggestions</span><input type="text" name="suggestions">
-            <small>Up to 6 chips, separated by <code>|</code>.</small></label>
+          <legend data-i18n="language">Language</legend>
+          <div class="field">
+            <div class="seg" role="radiogroup" aria-labelledby="l-lang">
+              <label><input type="radio" name="lang" value="auto"><span data-i18n="auto">Auto</span></label>
+              <label><input type="radio" name="lang" value="en"><span lang="en">English</span></label>
+              <label><input type="radio" name="lang" value="vi"><span lang="vi">Tiếng Việt</span></label>
+            </div>
+            <small id="l-lang" data-i18n="languageHint"></small>
+          </div>
         </fieldset>
 
         <fieldset>
-          <legend>Look</legend>
+          <legend data-i18n="text">Text</legend>
+          <label class="field"><span data-i18n="title">Title</span><input type="text" name="title" maxlength="60"></label>
+          <label class="field"><span data-i18n="subtitle">Subtitle</span><input type="text" name="subtitle" maxlength="80"></label>
+          <label class="field"><span data-i18n="greeting">Greeting</span><textarea name="greeting" rows="2"></textarea>
+            <small data-i18n="greetingHint"></small></label>
+          <label class="field"><span data-i18n="placeholder">Input placeholder</span><input type="text" name="placeholder" maxlength="80"></label>
+          <label class="field"><span data-i18n="suggestions">Suggestions</span><input type="text" name="suggestions">
+            <small data-i18n-html="suggestionsHint"></small></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="look">Look</legend>
           <div class="field">
-            <label class="label" for="accent-text">Accent color</label>
+            <label class="label" for="accent-text" data-i18n="accent">Accent color</label>
             <div class="color">
-              <input type="color" id="accent-color" aria-label="Pick accent color">
+              <input type="color" id="accent-color" data-i18n-aria="accentPick">
               <input type="text" id="accent-text" name="accent" maxlength="7" spellcheck="false">
             </div>
           </div>
           <div class="field">
-            <span class="label" id="l-position">Position</span>
+            <span class="label" id="l-position" data-i18n="position">Position</span>
             <div class="seg" role="radiogroup" aria-labelledby="l-position">
-              <label><input type="radio" name="position" value="left"><span>Left</span></label>
-              <label><input type="radio" name="position" value="right"><span>Right</span></label>
+              <label><input type="radio" name="position" value="left"><span data-i18n="left">Left</span></label>
+              <label><input type="radio" name="position" value="right"><span data-i18n="right">Right</span></label>
             </div>
           </div>
           <div class="field">
-            <span class="label" id="l-theme">Theme</span>
+            <span class="label" id="l-theme" data-i18n="theme">Theme</span>
             <div class="seg" role="radiogroup" aria-labelledby="l-theme">
-              <label><input type="radio" name="theme" value="auto"><span>Auto</span></label>
-              <label><input type="radio" name="theme" value="light"><span>Light</span></label>
-              <label><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+              <label><input type="radio" name="theme" value="auto"><span data-i18n="auto">Auto</span></label>
+              <label><input type="radio" name="theme" value="light"><span data-i18n="light">Light</span></label>
+              <label><input type="radio" name="theme" value="dark"><span data-i18n="dark">Dark</span></label>
             </div>
           </div>
         </fieldset>
 
         <fieldset>
-          <legend>Behavior</legend>
-          <label class="check"><input type="checkbox" name="open"> Open the panel on load</label>
-          <label class="check"><input type="checkbox" name="typewriter"> Typewriter reveal of replies</label>
-          <label class="check"><input type="checkbox" name="guestForm"> Require the guest form before chatting</label>
-          <label class="field" id="consent-field" hidden><span>Consent text</span><textarea name="consentText" rows="2"></textarea></label>
+          <legend data-i18n="behavior">Behavior</legend>
+          <label class="check"><input type="checkbox" name="open"> <span data-i18n="open">Open the panel on load</span></label>
+          <label class="check"><input type="checkbox" name="typewriter"> <span data-i18n="typewriter">Typewriter reveal of replies</span></label>
+          <label class="check"><input type="checkbox" name="guestForm"> <span data-i18n="guestForm">Require the guest form before chatting</span></label>
+          <label class="field" id="consent-field" hidden><span data-i18n="consentText">Consent text</span><textarea name="consentText" rows="3"></textarea></label>
         </fieldset>
 
         <fieldset>
-          <legend>Backend</legend>
-          <label class="field"><span>Webhook URL</span><input type="url" name="webhook" placeholder="Empty: use the built-in mock" spellcheck="false">
+          <legend data-i18n="backend">Backend</legend>
+          <label class="field"><span data-i18n="webhook">Webhook URL</span><input type="url" name="webhook" spellcheck="false">
             <small id="webhook-hint"></small></label>
-          <label class="field"><span>Content type</span>
+          <label class="field"><span data-i18n="contentType">Content type</span>
             <select name="contentType">
-              <option value="json">json (application/json)</option>
-              <option value="text">text (text/plain, no CORS preflight)</option>
+              <option value="json" data-i18n="contentJson">json (application/json)</option>
+              <option value="text" data-i18n="contentText">text (text/plain, no CORS preflight)</option>
             </select></label>
         </fieldset>
 
         <div class="buttons">
-          <button type="button" id="reset-options">Reset options</button>
+          <button type="button" id="reset-options" data-i18n="reset">Reset options</button>
         </div>
       </form>
 
       <div class="side">
-        <h2>Embed code</h2>
+        <h2 data-i18n="embedCode">Embed code</h2>
         <div class="code-head">
-          <div class="tabs" role="tablist" aria-label="Embed style">
+          <div class="tabs" role="tablist" data-i18n-aria="embedStyle">
             <button type="button" role="tab" id="tab-js" aria-selected="true" aria-controls="code">JavaScript</button>
-            <button type="button" role="tab" id="tab-tag" aria-selected="false" aria-controls="code">Script tag</button>
+            <button type="button" role="tab" id="tab-tag" aria-selected="false" aria-controls="code" data-i18n="tabTag">Script tag</button>
           </div>
-          <button type="button" class="copy" id="copy">Copy</button>
+          <button type="button" class="copy" id="copy" data-i18n="copy">Copy</button>
         </div>
         <pre id="code" role="tabpanel" tabindex="0"></pre>
-        <p class="lead" style="font-size:14px">Replace the <code>src</code> with where you host the file. Only options that differ from the defaults are listed.</p>
+        <p class="lead note" data-i18n-html="codeNote"></p>
 
-        <h2>Things to try</h2>
-        <p>
-          With the mock, ask about <code>pricing</code> to get quick-reply chips, or send <code>markdown</code> to see the
-          formatting. These words make it fail, so you can see the error states: <code>error</code> (500),
-          <code>bad</code> (400), <code>rate</code> (429), <code>slow</code> (timeout after 6 s) and
-          <code>offline</code> (network failure).
-        </p>
+        <h2 data-i18n="tryTitle">Things to try</h2>
+        <p data-i18n-html="tryText"></p>
 
-        <h2>JavaScript API</h2>
-        <div class="buttons">
-          <button type="button" onclick="FlowBubble.open()">open()</button>
-          <button type="button" onclick="FlowBubble.close()">close()</button>
-          <button type="button" onclick="FlowBubble.toggle()">toggle()</button>
-          <button type="button" onclick="FlowBubble.send('What are your opening hours?')">send(…)</button>
-          <button type="button" onclick="FlowBubble.reset()">reset()</button>
+        <h2 data-i18n="apiTitle">JavaScript API</h2>
+        <div class="buttons" id="api">
+          <button type="button" data-api="open">open()</button>
+          <button type="button" data-api="close">close()</button>
+          <button type="button" data-api="toggle">toggle()</button>
+          <button type="button" data-api="send">send(…)</button>
+          <button type="button" data-api="reset">reset()</button>
         </div>
-        <p>Events from <code>FlowBubble.on(…)</code>, newest first:</p>
+        <p data-i18n-html="eventsLabel"></p>
         <pre id="events"></pre>
       </div>
     </div>

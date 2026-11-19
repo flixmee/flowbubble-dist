@@ -1,20 +1,21 @@
 # FlowBubble (release builds)
 
-Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (about 11 KB gzipped) that adds a chatbox to any page and talks to a FLOWAPP webhook. The widget renders inside a Shadow DOM, so the host page's CSS can't break it.
+Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (about 13 KB gzipped) that adds a chatbox to any page and talks to a FLOWAPP webhook. The widget renders inside a Shadow DOM, so the host page's CSS can't break it.
 
 ## Files
 
 | File | Use |
 |---|---|
-| `flowbubble.v0.1.0.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
+| `flowbubble.v0.2.0.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
 | `flowbubble.min.js` | The latest build, same content. Use a short cache time if you serve it. |
+| `flowbubble.v0.1.0.js` | The previous version (English only). |
 
 Each version is also a [GitHub release](../../releases) with the files attached.
 
-SRI hash of `flowbubble.v0.1.0.js`:
+SRI hash of `flowbubble.v0.2.0.js`:
 
 ```
-sha384-iRB2Y1qmANIGHXRKwdlnH4XgVpnG/iTGPxlCH+z0+/abGyxJbwYI2BzB53F/+4RX
+sha384-D3VZevS6P6QAyTSmIZTHSNRxSoafAp6TGyK7q+MYR6GZSNw4fBKSOwg5hvKXNOLf
 ```
 
 ## Example
@@ -25,7 +26,7 @@ The [`example/`](example) folder has two pages you can open without a backend. A
 
 | Page | Shows |
 |---|---|
-| [`example/index.html`](example/index.html) | A playground: change the options (text, accent color, position, theme, guest form, your own webhook), see the widget reload with them, and copy the embed code. The options are kept in the URL, so a setup can be shared as a link. |
+| [`example/index.html`](example/index.html) | A playground: change the options (language, text, accent color, position, theme, guest form, your own webhook), see the widget reload with them, and copy the embed code. The options are kept in the URL, so a setup can be shared as a link. The page itself is in English and Vietnamese. |
 | [`example/guest-form.html`](example/guest-form.html) | The pre-chat guest form (`data-guest-form="required"`) and the `guest_required` gate. |
 
 ```sh
@@ -41,8 +42,8 @@ npx serve .        # or: python3 -m http.server 8000
 
 ```html
 <script
-  src="https://your-cdn.com/flowbubble.v0.1.0.js"
-  integrity="sha384-iRB2Y1qmANIGHXRKwdlnH4XgVpnG/iTGPxlCH+z0+/abGyxJbwYI2BzB53F/+4RX"
+  src="https://your-cdn.com/flowbubble.v0.2.0.js"
+  integrity="sha384-D3VZevS6P6QAyTSmIZTHSNRxSoafAp6TGyK7q+MYR6GZSNw4fBKSOwg5hvKXNOLf"
   crossorigin="anonymous"
   data-webhook="https://your-flowapp-host/api/automation-webhooks/<automation-id>"
   data-title="Support"
@@ -62,7 +63,7 @@ You can also create the script element yourself, for example from a tag manager 
 <script>
 (function () {
   var s = document.createElement('script');
-  s.src = 'https://your-cdn.com/flowbubble.v0.1.0.js';
+  s.src = 'https://your-cdn.com/flowbubble.v0.2.0.js';
   s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
   s.dataset.title = 'Support';
   s.dataset.greeting = 'Hi! How can I help you today?';
@@ -82,9 +83,9 @@ You can also create the script element yourself, for example from a tag manager 
 | Attribute | Default | Notes |
 |---|---|---|
 | `data-webhook` | (required) | Must be `https://`. `http://localhost` is allowed for development. |
-| `data-title` / `data-subtitle` | `Support` / `Typically replies instantly` | Header text. |
-| `data-greeting` | `Hi! How can I help you today?` | First bot bubble. Supports Markdown-lite. |
-| `data-placeholder` | `Type a message…` | Composer placeholder. |
+| `data-title` / `data-subtitle` | `Support` / `Typically replies instantly` | Header text. The default follows the [language](#languages). |
+| `data-greeting` | `Hi! How can I help you today?` | First bot bubble. Supports Markdown-lite. The default follows the language. |
+| `data-placeholder` | `Type a message…` | Composer placeholder. The default follows the language. |
 | `data-suggestions` | none | Chips under the greeting, separated by `\|`. Up to 6. Replies can add their own chips; see [Quick replies](#quick-replies). |
 | `data-accent` | `#6C5CE7` | Hex color. |
 | `data-position` | `right` | `right` or `left`. |
@@ -94,12 +95,21 @@ You can also create the script element yourself, for example from a tag manager 
 | `data-typewriter` | `true` | Word-by-word reveal of replies. It is always off under reduced motion. |
 | `data-storage-key` | `flowbubble` | `localStorage` namespace. Change it to run two widgets on one origin. |
 | `data-open` | `false` | Open the panel on load. |
-| `data-lang` | browser language | Sent as `lang`. |
+| `data-lang` | browser language | `en` or `vi`: the language of the widget's own text. Also sent as `lang`. See [Languages](#languages). |
 | `data-z-index` | `2147483000` | |
 | `data-guest-form` | `off` | `required` shows a pre-chat form (name and phone required, email optional, consent checkbox). Chat stays locked until it is submitted. |
-| `data-consent-text` | "I agree that my name and contact details are stored…" | Consent label. The text is stored with the lead. |
+| `data-consent-text` | "I agree that my name and contact details are stored…" | Consent label. The default follows the language. The text is stored with the lead. |
 
 You can also set `window.FlowBubbleConfig = { webhook: "...", ... }` before the script loads. `data-*` attributes take precedence over it.
+
+### Languages
+
+The widget's own text (buttons, the guest form, validation and error messages, screen-reader labels) comes in English (`en`) and Vietnamese (`vi`).
+
+- With no `data-lang`, the widget follows the visitor's browser language. Any language other than Vietnamese gets English.
+- `data-lang="vi"` or `data-lang="en"` fixes the language for every visitor. Region codes work too (`vi-VN`).
+- The title, subtitle, greeting, placeholder and consent text use the language's built-in text until you set them. A text you set is shown as written, in every language.
+- The same value is sent to the webhook as `lang`, so the backend can answer in that language.
 
 ### JavaScript API
 

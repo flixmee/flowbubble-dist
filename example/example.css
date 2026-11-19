@@ -132,3 +132,4 @@ main.wide { max-width: 1080px; }
 .copy { border-color: var(--border); background: var(--card); color: var(--text); }
 .copy:hover { border-color: var(--accent); }
 #code { min-height: 150px; white-space: pre-wrap; word-break: break-word; }
+.note { font-size: 14px; }
