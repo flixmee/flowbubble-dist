@@ -19,6 +19,8 @@ sha384-iRB2Y1qmANIGHXRKwdlnH4XgVpnG/iTGPxlCH+z0+/abGyxJbwYI2BzB53F/+4RX
 
 ## Example
 
+**Live demo:** <https://flixmee.github.io/flowbubble-dist/> ([guest form](https://flixmee.github.io/flowbubble-dist/example/guest-form.html))
+
 The [`example/`](example) folder has two pages you can open without a backend. A mock (`example/mock-backend.js`) answers the widget in the browser, so nothing is sent anywhere.
 
 | Page | Shows |
