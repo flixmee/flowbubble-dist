@@ -23,6 +23,7 @@
   }
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0;
   padding: 48px 16px 120px;
@@ -75,3 +76,59 @@ pre code { padding: 0; border: 0; background: none; }
   color: var(--log-text);
   border-color: transparent;
 }
+
+/* Playground (index.html) */
+main.wide { max-width: 1080px; }
+.playground { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 24px; align-items: start; margin-top: 24px; }
+@media (max-width: 860px) { .playground { grid-template-columns: minmax(0, 1fr); } }
+.card { border: 1px solid var(--border); border-radius: 12px; background: var(--card); padding: 16px; }
+.options fieldset { margin: 0 0 16px; padding: 0 0 16px; border: 0; border-bottom: 1px solid var(--border); }
+.options fieldset:last-of-type { margin-bottom: 12px; }
+.options legend { padding: 0; margin-bottom: 10px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.field { display: block; margin-bottom: 10px; }
+.field:last-child { margin-bottom: 0; }
+.field > span, .field > .label { display: block; margin-bottom: 4px; font-size: 13px; color: var(--muted); }
+.field input[type="text"], .field input[type="url"], .field textarea, .field select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+.field textarea { min-height: 62px; resize: vertical; }
+.field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible, .buttons button:focus-visible, .tabs button:focus-visible, .seg input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.field small { display: block; margin-top: 4px; font-size: 12px; line-height: 1.4; color: var(--muted); }
+.field small.warn { color: #c2410c; }
+.color { display: flex; gap: 8px; }
+.color input[type="color"] { flex: none; width: 38px; height: 36px; padding: 2px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); cursor: pointer; }
+.seg { display: flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--bg); }
+.seg label { flex: 1; cursor: pointer; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg span { display: block; padding: 6px 8px; text-align: center; font-size: 14px; }
+.seg input:checked + span { background: #6c5ce7; color: #fff; }
+.check { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 14px; cursor: pointer; }
+.check input { width: 16px; height: 16px; margin: 0; accent-color: var(--accent); }
+.options .buttons { margin: 0; }
+.side > h2:first-child { margin-top: 0; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.tabs { display: flex; gap: 4px; }
+.tabs button, .copy {
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.tabs button[aria-selected="true"] { border-color: var(--border); background: var(--card); color: var(--text); }
+.copy { border-color: var(--border); background: var(--card); color: var(--text); }
+.copy:hover { border-color: var(--accent); }
+#code { min-height: 150px; white-space: pre-wrap; word-break: break-word; }

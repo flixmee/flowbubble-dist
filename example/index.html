@@ -3,74 +3,119 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>FlowBubble example</title>
+  <title>FlowBubble playground</title>
   <link rel="stylesheet" href="example.css">
 </head>
 <body>
-  <main>
-    <h1>FlowBubble example</h1>
+  <main class="wide">
+    <h1>FlowBubble playground</h1>
     <p class="lead">
-      The chat bubble in the corner is the widget. This page answers it with a mock backend that runs in your
-      browser, so nothing is sent anywhere. See also the <a href="guest-form.html">guest form example</a>.
+      Change the options and the chat bubble in the corner reloads with them. Copy the embed code when you like the
+      result. A mock backend in your browser answers the chat, so nothing is sent anywhere unless you enter your own
+      webhook. See also the <a href="guest-form.html">guest form example</a>.
     </p>
 
-    <h2>The embed</h2>
-    <p>This page loads the widget from JavaScript: it creates the script element and sets each option as a <code>dataset</code> property. On your site, point <code>webhook</code> at your own webhook and leave out <code>mock-backend.js</code>.</p>
-<pre><code>&lt;script&gt;
-(function () {
-  var s = document.createElement('script');
-  s.src = 'flowbubble.min.js';
-  s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/&lt;automation-id&gt;';
-  s.dataset.title = 'Support';
-  s.dataset.greeting = 'Hi! How can I help you today?';
-  s.dataset.suggestions = 'Pricing|Contact|Opening hours';
-  s.dataset.accent = '#6C5CE7';
-  s.onload = function () {
-    FlowBubble.on('reply', function (e) { console.log(e.text); });
-  };
-  document.body.appendChild(s);
-})();
-&lt;/script&gt;</code></pre>
+    <div class="playground">
+      <form class="options card" id="options" autocomplete="off">
+        <fieldset>
+          <legend>Text</legend>
+          <label class="field"><span>Title</span><input type="text" name="title" maxlength="60"></label>
+          <label class="field"><span>Subtitle</span><input type="text" name="subtitle" maxlength="80"></label>
+          <label class="field"><span>Greeting</span><textarea name="greeting" rows="2"></textarea>
+            <small>Supports **bold**, *italic*, lists and links.</small></label>
+          <label class="field"><span>Input placeholder</span><input type="text" name="placeholder" maxlength="80"></label>
+          <label class="field"><span>Suggestions</span><input type="text" name="suggestions">
+            <small>Up to 6 chips, separated by <code>|</code>.</small></label>
+        </fieldset>
 
-    <h2>Things to try</h2>
-    <p>
-      Ask about <code>pricing</code> to get quick-reply chips, or send <code>markdown</code> to see the formatting.
-      These words make the mock fail, so you can see the error states: <code>error</code> (500), <code>bad</code> (400),
-      <code>rate</code> (429), <code>slow</code> (timeout after 6 s) and <code>offline</code> (network failure).
-    </p>
+        <fieldset>
+          <legend>Look</legend>
+          <div class="field">
+            <label class="label" for="accent-text">Accent color</label>
+            <div class="color">
+              <input type="color" id="accent-color" aria-label="Pick accent color">
+              <input type="text" id="accent-text" name="accent" maxlength="7" spellcheck="false">
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="l-position">Position</span>
+            <div class="seg" role="radiogroup" aria-labelledby="l-position">
+              <label><input type="radio" name="position" value="left"><span>Left</span></label>
+              <label><input type="radio" name="position" value="right"><span>Right</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <span class="label" id="l-theme">Theme</span>
+            <div class="seg" role="radiogroup" aria-labelledby="l-theme">
+              <label><input type="radio" name="theme" value="auto"><span>Auto</span></label>
+              <label><input type="radio" name="theme" value="light"><span>Light</span></label>
+              <label><input type="radio" name="theme" value="dark"><span>Dark</span></label>
+            </div>
+          </div>
+        </fieldset>
 
-    <h2>JavaScript API</h2>
-    <div class="buttons">
-      <button type="button" onclick="FlowBubble.open()">open()</button>
-      <button type="button" onclick="FlowBubble.close()">close()</button>
-      <button type="button" onclick="FlowBubble.toggle()">toggle()</button>
-      <button type="button" onclick="FlowBubble.send('What are your opening hours?')">send(…)</button>
-      <button type="button" onclick="FlowBubble.reset()">reset()</button>
+        <fieldset>
+          <legend>Behavior</legend>
+          <label class="check"><input type="checkbox" name="open"> Open the panel on load</label>
+          <label class="check"><input type="checkbox" name="typewriter"> Typewriter reveal of replies</label>
+          <label class="check"><input type="checkbox" name="guestForm"> Require the guest form before chatting</label>
+          <label class="field" id="consent-field" hidden><span>Consent text</span><textarea name="consentText" rows="2"></textarea></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Backend</legend>
+          <label class="field"><span>Webhook URL</span><input type="url" name="webhook" placeholder="Empty: use the built-in mock" spellcheck="false">
+            <small id="webhook-hint"></small></label>
+          <label class="field"><span>Content type</span>
+            <select name="contentType">
+              <option value="json">json (application/json)</option>
+              <option value="text">text (text/plain, no CORS preflight)</option>
+            </select></label>
+        </fieldset>
+
+        <div class="buttons">
+          <button type="button" id="reset-options">Reset options</button>
+        </div>
+      </form>
+
+      <div class="side">
+        <h2>Embed code</h2>
+        <div class="code-head">
+          <div class="tabs" role="tablist" aria-label="Embed style">
+            <button type="button" role="tab" id="tab-js" aria-selected="true" aria-controls="code">JavaScript</button>
+            <button type="button" role="tab" id="tab-tag" aria-selected="false" aria-controls="code">Script tag</button>
+          </div>
+          <button type="button" class="copy" id="copy">Copy</button>
+        </div>
+        <pre id="code" role="tabpanel" tabindex="0"></pre>
+        <p class="lead" style="font-size:14px">Replace the <code>src</code> with where you host the file. Only options that differ from the defaults are listed.</p>
+
+        <h2>Things to try</h2>
+        <p>
+          With the mock, ask about <code>pricing</code> to get quick-reply chips, or send <code>markdown</code> to see the
+          formatting. These words make it fail, so you can see the error states: <code>error</code> (500),
+          <code>bad</code> (400), <code>rate</code> (429), <code>slow</code> (timeout after 6 s) and
+          <code>offline</code> (network failure).
+        </p>
+
+        <h2>JavaScript API</h2>
+        <div class="buttons">
+          <button type="button" onclick="FlowBubble.open()">open()</button>
+          <button type="button" onclick="FlowBubble.close()">close()</button>
+          <button type="button" onclick="FlowBubble.toggle()">toggle()</button>
+          <button type="button" onclick="FlowBubble.send('What are your opening hours?')">send(…)</button>
+          <button type="button" onclick="FlowBubble.reset()">reset()</button>
+        </div>
+        <p>Events from <code>FlowBubble.on(…)</code>, newest first:</p>
+        <pre id="events"></pre>
+      </div>
     </div>
-    <p>Events from <code>FlowBubble.on(…)</code>, newest first:</p>
-    <pre id="events"></pre>
   </main>
 
   <!-- Example only: answers the widget in the browser. Don't copy this to your site. -->
   <script src="mock-backend.js"></script>
-
   <script src="event-log.js"></script>
-
-  <!-- The widget, loaded from JavaScript. Each data-* option is a dataset property. -->
-  <script>
-    (function () {
-      var s = document.createElement('script');
-      s.src = '../flowbubble.min.js';
-      s.dataset.webhook = 'https://mock.flowbubble.invalid/webhook';
-      s.dataset.title = 'Support';
-      s.dataset.greeting = 'Hi! I am the **demo bot**. How can I help you today?';
-      s.dataset.suggestions = 'Pricing|Contact|Opening hours|markdown';
-      s.dataset.accent = '#6C5CE7';
-      s.dataset.timeout = '6000';
-      s.dataset.storageKey = 'flowbubble-example';
-      s.onload = logFlowBubbleEvents;
-      document.body.appendChild(s);
-    })();
-  </script>
+  <!-- Builds the form, the embed code and loads the widget with document.createElement('script'). -->
+  <script src="playground.js"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@ The [`example/`](example) folder has two pages you can open without a backend. A
 
 | Page | Shows |
 |---|---|
-| [`example/index.html`](example/index.html) | The basic embed, quick-reply chips, Markdown, the error states and the JavaScript API with a live event log. |
+| [`example/index.html`](example/index.html) | A playground: change the options (text, accent color, position, theme, guest form, your own webhook), see the widget reload with them, and copy the embed code. The options are kept in the URL, so a setup can be shared as a link. |
 | [`example/guest-form.html`](example/guest-form.html) | The pre-chat guest form (`data-guest-form="required"`) and the `guest_required` gate. |
 
 ```sh

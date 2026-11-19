@@ -20,7 +20,11 @@
  */
 (function () {
   var MOCK_URL = 'https://mock.flowbubble.invalid/webhook';
-  var requireGuest = document.currentScript && document.currentScript.hasAttribute('data-require-guest');
+  // Pages can flip requireGuest later through window.FlowBubbleMock (the playground does).
+  var mock = window.FlowBubbleMock = {
+    url: MOCK_URL,
+    requireGuest: !!document.currentScript && document.currentScript.hasAttribute('data-require-guest')
+  };
   var realFetch = window.fetch.bind(window);
 
   // sessionId -> guest. Kept in localStorage so a reload behaves like a real server.
@@ -61,7 +65,7 @@
       try { localStorage.setItem(STORE, JSON.stringify(guests)); } catch (e) {}
       return json(200, { status: 'ok', registered: true, sessionId: body.sessionId });
     }
-    if (requireGuest && !guests[body.sessionId]) return json(403, { status: 'error', error: 'guest_required' });
+    if (mock.requireGuest && !guests[body.sessionId]) return json(403, { status: 'error', error: 'guest_required' });
     if (has(msg, 'error')) return json(500, { status: 'error', error: 'internal' });
     if (has(msg, 'bad')) return json(400, { status: 'error', error: 'Message rejected by validation.' });
     if (has(msg, 'rate')) return json(429, { status: 'error', error: 'Too many messages.' });
