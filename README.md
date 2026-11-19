@@ -17,6 +17,24 @@ SRI hash of `flowbubble.v0.1.0.js`:
 sha384-iRB2Y1qmANIGHXRKwdlnH4XgVpnG/iTGPxlCH+z0+/abGyxJbwYI2BzB53F/+4RX
 ```
 
+## Example
+
+The [`example/`](example) folder has two pages you can open without a backend. A mock (`example/mock-backend.js`) answers the widget in the browser, so nothing is sent anywhere.
+
+| Page | Shows |
+|---|---|
+| [`example/index.html`](example/index.html) | The basic embed, quick-reply chips, Markdown, the error states and the JavaScript API with a live event log. |
+| [`example/guest-form.html`](example/guest-form.html) | The pre-chat guest form (`data-guest-form="required"`) and the `guest_required` gate. |
+
+```sh
+git clone https://github.com/flixmee/flowbubble-dist.git
+cd flowbubble-dist
+npx serve .        # or: python3 -m http.server 8000
+# then open /example/
+```
+
+`mock-backend.js` also documents the request and response shapes your own webhook has to follow.
+
 ## Embed
 
 ```html

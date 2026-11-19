@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FlowBubble example: guest form</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <main>
+    <h1>Guest form example</h1>
+    <p class="lead">
+      With <code>data-guest-form="required"</code>, visitors fill in their name and phone number before they can chat.
+      This page uses the mock backend, so the details stay in your browser.
+      Back to the <a href="index.html">basic example</a>.
+    </p>
+
+    <h2>The embed</h2>
+<pre><code>&lt;script
+  src="flowbubble.min.js"
+  data-webhook="https://your-flowapp-host/api/automation-webhooks/&lt;automation-id&gt;"
+  data-title="Support"
+  data-guest-form="required"
+  data-consent-text="I agree that my details are stored so the team can contact me."
+  data-open="true"
+  defer&gt;&lt;/script&gt;</code></pre>
+
+    <h2>How it works</h2>
+    <p>
+      The form is only the visitor-facing half. Your backend has to enforce it: it answers chat messages with
+      <code>403 { "status": "error", "error": "guest_required" }</code> until the session has registered. When the
+      widget gets that answer, it shows the form again and resends the message afterwards.
+    </p>
+    <p>
+      Submit the form, then press <code>reset()</code>: the widget starts a new session and registers the same guest
+      again without asking, so you see a second <code>register</code> event.
+    </p>
+
+    <div class="buttons">
+      <button type="button" onclick="FlowBubble.open()">open()</button>
+      <button type="button" onclick="FlowBubble.reset()">reset()</button>
+    </div>
+    <p>Events from <code>FlowBubble.on(…)</code>, newest first:</p>
+    <pre id="events"></pre>
+  </main>
+
+  <!-- Example only: answers the widget in the browser. Don't copy this to your site. -->
+  <script src="mock-backend.js" data-require-guest></script>
+
+  <!-- The widget. -->
+  <script
+    src="../flowbubble.min.js"
+    data-webhook="https://mock.flowbubble.invalid/webhook"
+    data-title="Support"
+    data-greeting="Thanks! How can I help you today?"
+    data-suggestions="Pricing|Contact|Opening hours"
+    data-guest-form="required"
+    data-consent-text="I agree that my details are stored so the team can contact me."
+    data-open="true"
+    data-timeout="6000"
+    data-storage-key="flowbubble-example-guest"
+    defer></script>
+
+  <script src="event-log.js" defer></script>
+</body>
+</html>

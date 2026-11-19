@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>FlowBubble example</title>
+  <link rel="stylesheet" href="example.css">
+</head>
+<body>
+  <main>
+    <h1>FlowBubble example</h1>
+    <p class="lead">
+      The chat bubble in the corner is the widget. This page answers it with a mock backend that runs in your
+      browser, so nothing is sent anywhere. See also the <a href="guest-form.html">guest form example</a>.
+    </p>
+
+    <h2>The embed</h2>
+    <p>This page loads the widget with one tag. On your site, point <code>data-webhook</code> at your own webhook and leave out <code>mock-backend.js</code>.</p>
+<pre><code>&lt;script
+  src="flowbubble.min.js"
+  data-webhook="https://your-flowapp-host/api/automation-webhooks/&lt;automation-id&gt;"
+  data-title="Support"
+  data-greeting="Hi! How can I help you today?"
+  data-suggestions="Pricing|Contact|Opening hours"
+  data-accent="#6C5CE7"
+  defer&gt;&lt;/script&gt;</code></pre>
+
+    <h2>Things to try</h2>
+    <p>
+      Ask about <code>pricing</code> to get quick-reply chips, or send <code>markdown</code> to see the formatting.
+      These words make the mock fail, so you can see the error states: <code>error</code> (500), <code>bad</code> (400),
+      <code>rate</code> (429), <code>slow</code> (timeout after 6 s) and <code>offline</code> (network failure).
+    </p>
+
+    <h2>JavaScript API</h2>
+    <div class="buttons">
+      <button type="button" onclick="FlowBubble.open()">open()</button>
+      <button type="button" onclick="FlowBubble.close()">close()</button>
+      <button type="button" onclick="FlowBubble.toggle()">toggle()</button>
+      <button type="button" onclick="FlowBubble.send('What are your opening hours?')">send(…)</button>
+      <button type="button" onclick="FlowBubble.reset()">reset()</button>
+    </div>
+    <p>Events from <code>FlowBubble.on(…)</code>, newest first:</p>
+    <pre id="events"></pre>
+  </main>
+
+  <!-- Example only: answers the widget in the browser. Don't copy this to your site. -->
+  <script src="mock-backend.js"></script>
+
+  <!-- The widget. -->
+  <script
+    src="../flowbubble.min.js"
+    data-webhook="https://mock.flowbubble.invalid/webhook"
+    data-title="Support"
+    data-greeting="Hi! I am the **demo bot**. How can I help you today?"
+    data-suggestions="Pricing|Contact|Opening hours|markdown"
+    data-accent="#6C5CE7"
+    data-timeout="6000"
+    data-storage-key="flowbubble-example"
+    defer></script>
+
+  <script src="event-log.js" defer></script>
+</body>
+</html>
