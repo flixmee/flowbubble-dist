@@ -2,7 +2,7 @@
 // and prints the matching embed code. Example pages only, not part of the widget.
 (function () {
   var WIDGET_SRC = '../flowbubble.min.js';
-  var SNIPPET_SRC = 'https://your-cdn.com/flowbubble.v0.2.0.js';
+  var SNIPPET_SRC = 'https://your-cdn.com/flowbubble.v0.3.0.js';
   var SNIPPET_WEBHOOK = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
 
   // The widget's own defaults. The embed code leaves out options that still have these values.
@@ -12,6 +12,7 @@
     title: '',
     subtitle: '',
     greeting: '',
+    tooltip: '',
     placeholder: '',
     suggestions: '',
     accent: '#6C5CE7',
@@ -39,7 +40,9 @@
       title: 'Title',
       subtitle: 'Subtitle',
       greeting: 'Greeting',
-      greetingHint: 'Supports **bold**, *italic*, lists and links. Leave a text field empty to use the built-in text of the language.',
+      greetingHint: 'Supports **bold**, *italic*, lists and links. Type off to hide it. Leave a text field empty to use the built-in text of the language.',
+      tooltip: 'Launcher tooltip',
+      tooltipHint: 'A bubble above the chat button while the chat is closed. Empty: no tooltip.',
       placeholder: 'Input placeholder',
       suggestions: 'Suggestions',
       suggestionsHint: 'Up to 6 chips, separated by <code>|</code>.',
@@ -102,7 +105,9 @@
       title: 'Tiêu đề',
       subtitle: 'Tiêu đề phụ',
       greeting: 'Lời chào',
-      greetingHint: 'Hỗ trợ **đậm**, *nghiêng*, danh sách và liên kết. Để trống ô nội dung để dùng câu có sẵn của ngôn ngữ.',
+      greetingHint: 'Hỗ trợ **đậm**, *nghiêng*, danh sách và liên kết. Nhập off để ẩn lời chào. Để trống ô nội dung để dùng câu có sẵn của ngôn ngữ.',
+      tooltip: 'Bong bóng gợi ý',
+      tooltipHint: 'Bong bóng hiện phía trên nút chat khi khung chat đang đóng. Để trống: không hiện.',
       placeholder: 'Gợi ý trong ô nhập',
       suggestions: 'Gợi ý câu hỏi',
       suggestionsHint: 'Tối đa 6 nút, cách nhau bằng <code>|</code>.',
@@ -295,6 +300,8 @@
     changed(state).forEach(function (k) { s.dataset[k] = state[k]; });
     if (mounted && panelOpen) s.dataset.open = 'true'; // keep the panel open across reloads
     s.dataset.storageKey = 'flowbubble-example';
+    // The tooltip shows once per browser session. Show it again after each change of options.
+    try { sessionStorage.removeItem('flowbubble-example:tip'); } catch (e) { /* storage blocked */ }
     if (webhook === FlowBubbleMock.url) s.dataset.timeout = '6000';
     s.onload = function () {
       panelOpen = s.dataset.open === 'true';

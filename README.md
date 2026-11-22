@@ -6,16 +6,17 @@ Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (
 
 | File | Use |
 |---|---|
-| `flowbubble.v0.2.0.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
+| `flowbubble.v0.3.0.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
 | `flowbubble.min.js` | The latest build, same content. Use a short cache time if you serve it. |
-| `flowbubble.v0.1.0.js` | The previous version (English only). |
+| `flowbubble.v0.2.0.js` | The previous version (no launcher tooltip). |
+| `flowbubble.v0.1.0.js` | The first version (English only). |
 
 Each version is also a [GitHub release](../../releases) with the files attached.
 
-SRI hash of `flowbubble.v0.2.0.js`:
+SRI hash of `flowbubble.v0.3.0.js`:
 
 ```
-sha384-D3VZevS6P6QAyTSmIZTHSNRxSoafAp6TGyK7q+MYR6GZSNw4fBKSOwg5hvKXNOLf
+sha384-V8B374NGt96KoHU4rzmHp8kowFCGMjbyQVhdCqiespCEyVqxsWdRtxz4o/tD0cPm
 ```
 
 ## Example
@@ -26,7 +27,7 @@ The [`example/`](example) folder has two pages you can open without a backend. A
 
 | Page | Shows |
 |---|---|
-| [`example/index.html`](example/index.html) | A playground: change the options (language, text, accent color, position, theme, guest form, your own webhook), see the widget reload with them, and copy the embed code. The options are kept in the URL, so a setup can be shared as a link. The page itself is in English and Vietnamese. |
+| [`example/index.html`](example/index.html) | A playground: change the options (language, text, tooltip, accent color, position, theme, guest form, your own webhook), see the widget reload with them, and copy the embed code. The options are kept in the URL, so a setup can be shared as a link. The page itself is in English and Vietnamese. |
 | [`example/guest-form.html`](example/guest-form.html) | The pre-chat guest form (`data-guest-form="required"`) and the `guest_required` gate. |
 
 ```sh
@@ -42,8 +43,8 @@ npx serve .        # or: python3 -m http.server 8000
 
 ```html
 <script
-  src="https://your-cdn.com/flowbubble.v0.2.0.js"
-  integrity="sha384-D3VZevS6P6QAyTSmIZTHSNRxSoafAp6TGyK7q+MYR6GZSNw4fBKSOwg5hvKXNOLf"
+  src="https://your-cdn.com/flowbubble.v0.3.0.js"
+  integrity="sha384-V8B374NGt96KoHU4rzmHp8kowFCGMjbyQVhdCqiespCEyVqxsWdRtxz4o/tD0cPm"
   crossorigin="anonymous"
   data-webhook="https://your-flowapp-host/api/automation-webhooks/<automation-id>"
   data-title="Support"
@@ -63,7 +64,7 @@ You can also create the script element yourself, for example from a tag manager 
 <script>
 (function () {
   var s = document.createElement('script');
-  s.src = 'https://your-cdn.com/flowbubble.v0.2.0.js';
+  s.src = 'https://your-cdn.com/flowbubble.v0.3.0.js';
   s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
   s.dataset.title = 'Support';
   s.dataset.greeting = 'Hi! How can I help you today?';
@@ -84,7 +85,8 @@ You can also create the script element yourself, for example from a tag manager 
 |---|---|---|
 | `data-webhook` | (required) | Must be `https://`. `http://localhost` is allowed for development. |
 | `data-title` / `data-subtitle` | `Support` / `Typically replies instantly` | Header text. The default follows the [language](#languages). |
-| `data-greeting` | `Hi! How can I help you today?` | First bot bubble. Supports Markdown-lite. The default follows the language. |
+| `data-greeting` | `Hi! How can I help you today?` | First bot bubble. Supports Markdown-lite. The default follows the language. `off` hides it. |
+| `data-tooltip` | none | Text of a small bubble above the launcher, shown 1.5 s after load while the chat is closed. Clicking it opens the chat; opening the chat or pressing × hides it for the rest of the browser session. |
 | `data-placeholder` | `Type a message…` | Composer placeholder. The default follows the language. |
 | `data-suggestions` | none | Chips under the greeting, separated by `\|`. Up to 6. Replies can add their own chips; see [Quick replies](#quick-replies). |
 | `data-accent` | `#6C5CE7` | Hex color. |
