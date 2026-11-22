@@ -6,17 +6,18 @@ Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (
 
 | File | Use |
 |---|---|
-| `flowbubble.v0.3.0.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
+| `flowbubble.v0.3.1.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
 | `flowbubble.min.js` | The latest build, same content. Use a short cache time if you serve it. |
-| `flowbubble.v0.2.0.js` | The previous version (no launcher tooltip). |
+| `flowbubble.v0.3.0.js` | The previous version (tooltip without the typing animation). |
+| `flowbubble.v0.2.0.js` | An older version (no launcher tooltip). |
 | `flowbubble.v0.1.0.js` | The first version (English only). |
 
 Each version is also a [GitHub release](../../releases) with the files attached.
 
-SRI hash of `flowbubble.v0.3.0.js`:
+SRI hash of `flowbubble.v0.3.1.js`:
 
 ```
-sha384-V8B374NGt96KoHU4rzmHp8kowFCGMjbyQVhdCqiespCEyVqxsWdRtxz4o/tD0cPm
+sha384-LYn0XuvQMhh19JL9ntQbN22nsSFGZBpbHRtqqHHDdyDBhhvCiHs5ov5RVUnDKW7A
 ```
 
 ## Example
@@ -43,8 +44,8 @@ npx serve .        # or: python3 -m http.server 8000
 
 ```html
 <script
-  src="https://your-cdn.com/flowbubble.v0.3.0.js"
-  integrity="sha384-V8B374NGt96KoHU4rzmHp8kowFCGMjbyQVhdCqiespCEyVqxsWdRtxz4o/tD0cPm"
+  src="https://your-cdn.com/flowbubble.v0.3.1.js"
+  integrity="sha384-LYn0XuvQMhh19JL9ntQbN22nsSFGZBpbHRtqqHHDdyDBhhvCiHs5ov5RVUnDKW7A"
   crossorigin="anonymous"
   data-webhook="https://your-flowapp-host/api/automation-webhooks/<automation-id>"
   data-title="Support"
@@ -64,7 +65,7 @@ You can also create the script element yourself, for example from a tag manager 
 <script>
 (function () {
   var s = document.createElement('script');
-  s.src = 'https://your-cdn.com/flowbubble.v0.3.0.js';
+  s.src = 'https://your-cdn.com/flowbubble.v0.3.1.js';
   s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
   s.dataset.title = 'Support';
   s.dataset.greeting = 'Hi! How can I help you today?';
@@ -86,7 +87,7 @@ You can also create the script element yourself, for example from a tag manager 
 | `data-webhook` | (required) | Must be `https://`. `http://localhost` is allowed for development. |
 | `data-title` / `data-subtitle` | `Support` / `Typically replies instantly` | Header text. The default follows the [language](#languages). |
 | `data-greeting` | `Hi! How can I help you today?` | First bot bubble. Supports Markdown-lite. The default follows the language. `off` hides it. |
-| `data-tooltip` | none | Text of a small bubble above the launcher, shown 1.5 s after load while the chat is closed. Clicking it opens the chat; opening the chat or pressing × hides it for the rest of the browser session. |
+| `data-tooltip` | none | Text of a small bubble above the launcher, shown 1.5 s after load while the chat is closed. It pops out of the launcher, shows typing dots, then types the text in. Under reduced motion it just fades in. Clicking it opens the chat; opening the chat or pressing × hides it for the rest of the browser session. |
 | `data-placeholder` | `Type a message…` | Composer placeholder. The default follows the language. |
 | `data-suggestions` | none | Chips under the greeting, separated by `\|`. Up to 6. Replies can add their own chips; see [Quick replies](#quick-replies). |
 | `data-accent` | `#6C5CE7` | Hex color. |
