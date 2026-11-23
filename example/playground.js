@@ -2,7 +2,7 @@
 // and prints the matching embed code. Example pages only, not part of the widget.
 (function () {
   var WIDGET_SRC = '../flowbubble.min.js';
-  var SNIPPET_SRC = 'https://your-cdn.com/flowbubble.v0.3.1.js';
+  var SNIPPET_SRC = 'https://your-cdn.com/flowbubble.v0.4.0.js';
   var SNIPPET_WEBHOOK = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
 
   // The widget's own defaults. The embed code leaves out options that still have these values.

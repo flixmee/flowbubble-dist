@@ -6,18 +6,19 @@ Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (
 
 | File | Use |
 |---|---|
-| `flowbubble.v0.3.1.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
+| `flowbubble.v0.4.0.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
 | `flowbubble.min.js` | The latest build, same content. Use a short cache time if you serve it. |
-| `flowbubble.v0.3.0.js` | The previous version (tooltip without the typing animation). |
+| `flowbubble.v0.3.1.js` | The previous version (no staff relay). |
+| `flowbubble.v0.3.0.js` | An older version (tooltip without the typing animation). |
 | `flowbubble.v0.2.0.js` | An older version (no launcher tooltip). |
 | `flowbubble.v0.1.0.js` | The first version (English only). |
 
 Each version is also a [GitHub release](../../releases) with the files attached.
 
-SRI hash of `flowbubble.v0.3.1.js`:
+SRI hash of `flowbubble.v0.4.0.js`:
 
 ```
-sha384-LYn0XuvQMhh19JL9ntQbN22nsSFGZBpbHRtqqHHDdyDBhhvCiHs5ov5RVUnDKW7A
+sha384-h2cB8007z82G6q9/9rriQWvpkmsMNlmPHe/njYZFyWoeyhcQyhtdi8T6ZTRNk1gM
 ```
 
 ## Example
@@ -44,8 +45,8 @@ npx serve .        # or: python3 -m http.server 8000
 
 ```html
 <script
-  src="https://your-cdn.com/flowbubble.v0.3.1.js"
-  integrity="sha384-LYn0XuvQMhh19JL9ntQbN22nsSFGZBpbHRtqqHHDdyDBhhvCiHs5ov5RVUnDKW7A"
+  src="https://your-cdn.com/flowbubble.v0.4.0.js"
+  integrity="sha384-h2cB8007z82G6q9/9rriQWvpkmsMNlmPHe/njYZFyWoeyhcQyhtdi8T6ZTRNk1gM"
   crossorigin="anonymous"
   data-webhook="https://your-flowapp-host/api/automation-webhooks/<automation-id>"
   data-title="Support"
@@ -65,7 +66,7 @@ You can also create the script element yourself, for example from a tag manager 
 <script>
 (function () {
   var s = document.createElement('script');
-  s.src = 'https://your-cdn.com/flowbubble.v0.3.1.js';
+  s.src = 'https://your-cdn.com/flowbubble.v0.4.0.js';
   s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
   s.dataset.title = 'Support';
   s.dataset.greeting = 'Hi! How can I help you today?';
