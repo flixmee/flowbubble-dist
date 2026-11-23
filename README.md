@@ -6,9 +6,10 @@ Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (
 
 | File | Use |
 |---|---|
-| `flowbubble.v0.4.1.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
+| `flowbubble.v0.4.2.js` | Versioned build. Cache it long-term (`Cache-Control: public, max-age=31536000, immutable`). |
 | `flowbubble.min.js` | The latest build, same content. Use a short cache time if you serve it. |
-| `flowbubble.v0.4.0.js` | The previous version (no name and version under the chat). |
+| `flowbubble.v0.4.1.js` | The previous version (does not tell staff when the visitor closes the page). |
+| `flowbubble.v0.4.0.js` | An older version (no name and version under the chat). |
 | `flowbubble.v0.3.1.js` | An older version (no staff relay). |
 | `flowbubble.v0.3.0.js` | An older version (tooltip without the typing animation). |
 | `flowbubble.v0.2.0.js` | An older version (no launcher tooltip). |
@@ -16,10 +17,10 @@ Built files of the FlowBubble chat widget: one zero-dependency vanilla JS file (
 
 Each version is also a [GitHub release](../../releases) with the files attached.
 
-SRI hash of `flowbubble.v0.4.1.js`:
+SRI hash of `flowbubble.v0.4.2.js`:
 
 ```
-sha384-wGHY5jck5uFVNoIAid8/6kZEDNPYmhRCmVTUGrasjMqIEUxv5xU/zIZGshDFqwAJ
+sha384-jRk2HSeucZrAHdDR9SdzcWumbk1PNyj8FWyMkgpG3ZAa5hSoLVn7gyiZ+Lguh03m
 ```
 
 ## Example
@@ -46,8 +47,8 @@ npx serve .        # or: python3 -m http.server 8000
 
 ```html
 <script
-  src="https://your-cdn.com/flowbubble.v0.4.1.js"
-  integrity="sha384-wGHY5jck5uFVNoIAid8/6kZEDNPYmhRCmVTUGrasjMqIEUxv5xU/zIZGshDFqwAJ"
+  src="https://your-cdn.com/flowbubble.v0.4.2.js"
+  integrity="sha384-jRk2HSeucZrAHdDR9SdzcWumbk1PNyj8FWyMkgpG3ZAa5hSoLVn7gyiZ+Lguh03m"
   crossorigin="anonymous"
   data-webhook="https://your-flowapp-host/api/automation-webhooks/<automation-id>"
   data-title="Support"
@@ -67,7 +68,7 @@ You can also create the script element yourself, for example from a tag manager 
 <script>
 (function () {
   var s = document.createElement('script');
-  s.src = 'https://your-cdn.com/flowbubble.v0.4.1.js';
+  s.src = 'https://your-cdn.com/flowbubble.v0.4.2.js';
   s.dataset.webhook = 'https://your-flowapp-host/api/automation-webhooks/<automation-id>';
   s.dataset.title = 'Support';
   s.dataset.greeting = 'Hi! How can I help you today?';
